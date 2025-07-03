@@ -11,26 +11,37 @@ from pathlib import Path
 
 def check_latex_installation():
     """Check if LaTeX is installed on the system."""
-    try:
-        result = subprocess.run(['pdflatex', '--version'], 
-                              capture_output=True, text=True, timeout=10)
-        if result.returncode == 0:
-            print("✓ LaTeX installation found")
-            return True
-        else:
-            print("✗ LaTeX not found or not working properly")
-            return False
-    except (subprocess.TimeoutExpired, FileNotFoundError):
-        print("✗ LaTeX (pdflatex) not found in system PATH")
-        return False
+    # Common MiKTeX installation paths
+    miktex_paths = [
+        r"C:\Program Files\MiKTeX\miktex\bin\x64\pdflatex.exe",
+        r"C:\Program Files (x86)\MiKTeX\miktex\bin\pdflatex.exe",
+        r"C:\Users\{}\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe".format(os.getenv('USERNAME', '')),
+        "pdflatex"  # Try system PATH as fallback
+    ]
+    
+    for pdflatex_path in miktex_paths:
+        try:
+            result = subprocess.run([pdflatex_path, '--version'], 
+                                  capture_output=True, text=True, timeout=10)
+            if result.returncode == 0:
+                print(f"✓ LaTeX installation found at: {pdflatex_path}")
+                return pdflatex_path
+            else:
+                continue
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            continue
+    
+    print("✗ LaTeX (pdflatex) not found in system PATH or common installation locations")
+    return None
 
-def convert_latex_to_pdf(tex_file_path, output_dir=None):
+def convert_latex_to_pdf(tex_file_path, output_dir=None, pdflatex_path='pdflatex'):
     """
     Convert LaTeX file to PDF using pdflatex.
     
     Args:
         tex_file_path (str): Path to the .tex file
         output_dir (str, optional): Output directory for PDF. Defaults to same as tex file.
+        pdflatex_path (str): Path to pdflatex executable
     
     Returns:
         bool: True if conversion successful, False otherwise
@@ -65,11 +76,11 @@ def convert_latex_to_pdf(tex_file_path, output_dir=None):
             print(f"🔄 Running pdflatex (pass {run_number}/2)...")
             
             result = subprocess.run([
-                'pdflatex',
+                pdflatex_path,
                 '-interaction=nonstopmode',
                 '-output-directory', str(output_dir),
                 str(tex_path.name)
-            ], capture_output=True, text=True, timeout=60)
+            ], capture_output=True, text=True, timeout=120)
             
             if result.returncode != 0:
                 print(f"✗ pdflatex failed on pass {run_number}")
@@ -112,7 +123,8 @@ def main():
     print("=" * 50)
     
     # Check LaTeX installation
-    if not check_latex_installation():
+    pdflatex_path = check_latex_installation()
+    if not pdflatex_path:
         print("\n💡 To install LaTeX:")
         print("   • Windows: Install MiKTeX or TeX Live")
         print("   • macOS: Install MacTeX")
@@ -134,7 +146,7 @@ def main():
     print(f"📁 Output directory: {output_dir}")
     
     # Convert to PDF
-    success = convert_latex_to_pdf(tex_file, output_dir)
+    success = convert_latex_to_pdf(tex_file, output_dir, pdflatex_path)
     
     if success:
         print("\n🎉 Resume PDF generated successfully!")
