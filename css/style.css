@@ -958,7 +958,7 @@ ul {
     margin-bottom: var(--space-8);
 }
 
-.contact__information > div {
+.contact__info-item {
     display: flex;
     align-items: center;
     gap: var(--space-4);
@@ -971,7 +971,7 @@ ul {
     transition: all var(--transition-normal);
 }
 
-.contact__information > div:hover {
+.contact__info-item:hover {
     transform: translateY(-2px);
     box-shadow: var(--glass-shadow);
 }
@@ -1249,6 +1249,21 @@ ul {
         grid-template-columns: 1fr;
         text-align: center;
     }
+    
+    /* Portfolio mobile adjustments */
+    .portfolio__container {
+        padding: 0 var(--space-4);
+    }
+    
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none;
+    }
+    
+    .portfolio__content {
+        padding: var(--space-6);
+        min-height: 250px;
+    }
 }
 
 @media screen and (max-width: 568px) {
@@ -1269,6 +1284,10 @@ ul {
         padding: 0 var(--space-4);
     }
     
+    .nav__logo {
+        font-size: var(--text-lg);
+    }
+    
     .home__title {
         font-size: var(--text-4xl);
     }
@@ -1276,6 +1295,11 @@ ul {
     .home__blob {
         width: 250px;
         height: 250px;
+    }
+    
+    .home__social {
+        justify-content: center;
+        margin-bottom: var(--space-6);
     }
     
     .about__img img {
@@ -1286,7 +1310,7 @@ ul {
     .skills__content,
     .portfolio__content,
     .contact__content {
-        padding: var(--space-6);
+        padding: var(--space-4);
     }
     
     .home__buttons {
@@ -1298,6 +1322,66 @@ ul {
         width: 100%;
         justify-content: center;
         max-width: 300px;
+    }
+    
+    /* Contact section mobile fixes */
+    .contact__information {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+    
+    .contact__info-item {
+        padding: var(--space-3);
+        flex-direction: row;
+        text-align: left;
+    }
+    
+    .contact__icon {
+        font-size: var(--text-lg);
+        margin-right: var(--space-3);
+    }
+    
+    .contact__title {
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-1);
+    }
+    
+    .contact__subtitle {
+        font-size: var(--text-xs);
+        word-break: break-word;
+    }
+    
+    /* Portfolio mobile improvements */
+    .portfolio__content {
+        padding: var(--space-4);
+        min-height: 200px;
+    }
+    
+    .portfolio__title {
+        font-size: var(--text-lg);
+        margin-bottom: var(--space-2);
+    }
+    
+    .portfolio__description {
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-3);
+    }
+    
+    .portfolio__technologies {
+        font-size: var(--text-xs);
+        margin-bottom: var(--space-4);
+    }
+    
+    /* Footer mobile adjustments */
+    .footer__socials {
+        justify-content: center;
+        gap: var(--space-3);
+    }
+    
+    .footer__social {
+        width: 36px;
+        height: 36px;
+        font-size: var(--text-base);
     }
 }
 
@@ -1477,4 +1561,77 @@ ul {
 
 .swiper-slide:hover {
     transform: translateY(-4px);
+}
+
+/* ============ MOBILE FIRST APPROACH ================ */
+@media screen and (max-width: 350px) {
+    .nav__menu {
+        width: 100%;
+        right: -100%;
+    }
+    
+    .nav__logo {
+        font-size: var(--text-base);
+    }
+    
+    .home__title {
+        font-size: var(--text-3xl);
+    }
+    
+    .home__blob {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .about__img img {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .skills__content,
+    .portfolio__content,
+    .contact__content {
+        padding: var(--space-3);
+    }
+    
+    .button {
+        padding: var(--space-3) var(--space-4);
+        font-size: var(--text-sm);
+    }
+    
+    .contact__information {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+    
+    .contact__info-item {
+        padding: var(--space-2);
+        gap: var(--space-2);
+    }
+    
+    .contact__icon {
+        font-size: var(--text-base);
+    }
+    
+    .contact__title {
+        font-size: var(--text-xs);
+    }
+    
+    .contact__subtitle {
+        font-size: 0.7rem;
+    }
+    
+    .portfolio__content {
+        padding: var(--space-3);
+        min-height: 180px;
+    }
+    
+    .portfolio__title {
+        font-size: var(--text-base);
+    }
+    
+    .portfolio__description,
+    .portfolio__technologies {
+        font-size: 0.75rem;
+    }
 } 
